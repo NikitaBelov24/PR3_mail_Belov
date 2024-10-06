@@ -39,6 +39,8 @@
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
+            this.comboBoxService = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxMail
@@ -52,7 +54,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(255, 480);
+            this.button1.Location = new System.Drawing.Point(482, 480);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(279, 38);
             this.button1.TabIndex = 1;
@@ -145,11 +147,36 @@
             this.textBox4.Size = new System.Drawing.Size(749, 206);
             this.textBox4.TabIndex = 10;
             // 
+            // comboBoxService
+            // 
+            this.comboBoxService.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxService.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxService.FormattingEnabled = true;
+            this.comboBoxService.Items.AddRange(new object[] {
+            "Gmail",
+            "Mail.ru"});
+            this.comboBoxService.Location = new System.Drawing.Point(150, 480);
+            this.comboBoxService.Name = "comboBoxService";
+            this.comboBoxService.Size = new System.Drawing.Size(235, 32);
+            this.comboBoxService.TabIndex = 11;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.Location = new System.Drawing.Point(12, 486);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(132, 20);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "Выбрать сервис";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 530);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.comboBoxService);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBoxName);
@@ -182,6 +209,8 @@
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.ComboBox comboBoxService;
+        private System.Windows.Forms.Label label7;
     }
 }
 

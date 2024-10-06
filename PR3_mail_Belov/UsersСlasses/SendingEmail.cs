@@ -5,51 +5,80 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
+using PR3_mail_Belov.UsersСlasses;
+
 
 namespace PR3_mail_Belov.UsersСlasses
 {
-    internal class SendingEmail
+    public class SendingEmail
     {
-        private InfoEmailSending InfoEmailSending {  get; set; }
+        private InfoEmail InfoEmail { get; set; }
 
-        private SendingEmail(InfoEmailSending infoEmailSending)
+        public SendingEmail(InfoEmail infoEmail)
         {
-            InfoEmailSending = infoEmailSending
-            ?? throw new ArgumentNullException(nameof(infoEmailSending));
+            InfoEmail = infoEmail
+            ?? throw new ArgumentNullException(nameof(infoEmail));
         }
+
         public void Send()
         {
+            // Добавляем обработку исключений 
             try
             {
-                SmtpClient mySmntClient = new SmtpClient(InfoEmailSending.SmtpClientAdress);
-                mySmntClient.UseDefaultCredentials = false;
-                mySmntClient.EnableSsl = true;
+                //Вносим адрес SMTP сервера
+                SmtpClient mySmtpClient =
+                    new SmtpClient(InfoEmail.SmtpClientAdress);
 
-                NetworkCredential basicAuthenticationInfo = new NetworkCredential(InfoEmailSending.EmailAdressFrom.EmailAdress, InfoEmailSending.EmailPassword);
+                // Задаём учётные данные пользователя
+                mySmtpClient.UseDefaultCredentials = false;
+                // Включаем ипользование портокола SSl
+                mySmtpClient.EnableSsl = true;
 
-                mySmntClient.Credentials = basicAuthenticationInfo;
+                //Добавляем порт
+                if (InfoEmail.Port != -1)
+                    mySmtpClient.Port = InfoEmail.Port;
 
-                MailAddress from = new MailAddress(InfoEmailSending.EmailAdressFrom.EmailAdress, InfoEmailSending.EmailAdressTo.Name);
-                MailAddress to = new MailAddress(InfoEmailSending.EmailAdressFrom.EmailAdress, InfoEmailSending.EmailAdressTo.Name);
+                // Задаём учётные данные пользователя
+                NetworkCredential basicAuthenticationInfo = new
+                   NetworkCredential(
+                   InfoEmail.EmailAdressFrom.EmailAdress,
+                   InfoEmail.EmailPassword);
+
+                mySmtpClient.Credentials = basicAuthenticationInfo;
+
+                // Добавляем адрес откуда отправлнено сообщение 
+                MailAddress from = new MailAddress(
+                InfoEmail.EmailAdressFrom.EmailAdress,
+                InfoEmail.EmailAdressFrom.Name);
+                // Добавляем адрес куда будет отправлнено сообщение 
+                MailAddress to = new MailAddress(
+                InfoEmail.EmailAdressTo.EmailAdress,
+                InfoEmail.EmailAdressTo.Name);
 
                 MailMessage myMail = new MailMessage(from, to);
 
-                MailAddress replyto = new MailAddress(InfoEmailSending.EmailAdressFrom.EmailAdress);
-                myMail.ReplyToList.Add(replyto);
+                // Добавляем наш адрес в список адресов для ответа 
+                MailAddress replyTo =
+                    new MailAddress(InfoEmail.EmailAdressFrom.EmailAdress);
+                myMail.ReplyToList.Add(replyTo);
 
+                //Выбираем кодировку символов в письме
+                //В нашем случае UTF8
                 Encoding encoding = Encoding.UTF8;
-                myMail.Subject = InfoEmailSending.Subject;
+                //Задаём значение Заголовка и его кодировку 
+                myMail.Subject = InfoEmail.Subject;
                 myMail.SubjectEncoding = encoding;
 
-                myMail.Body = InfoEmailSending.Body;
+                // Задаём значение Сообщения и его кодировку 
+                myMail.Body = InfoEmail.Body;
                 myMail.BodyEncoding = encoding;
 
-                mySmntClient.Send(myMail);
+                // Отправляем письмо
+                mySmtpClient.Send(myMail);
             }
-            catch (Exception ex) 
-            { 
-                Console.WriteLine(ex.Message);
-
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

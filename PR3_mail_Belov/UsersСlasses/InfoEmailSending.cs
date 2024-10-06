@@ -7,45 +7,93 @@ using System.Threading.Tasks;
 
 namespace PR3_mail_Belov.UsersСlasses
 {
-    internal class InfoEmailSending
+    public abstract class InfoEmail
     {
-        public InfoEmailSending(string smtpClientAdress, StringPair emailAdressFrom, string emailPassword, StringPair emailAdressTo, string subject, string body) 
+        private string _smtpClientAdress;
+        private StringPair _emailAdressFrom;
+        private string _emailPassword;
+        private StringPair _emailAdressTo;
+        private string _subject;
+        private string _body;
+        private int _port;
+
+        public string SmtpClientAdress
         {
-            SmtpClientAdress = String.IsNullOrWhiteSpace(smtpClientAdress) ?
-                    throw new Exception("Нельзя втсавлять пробелы или пустое значение!") : smtpClientAdress;
-
-            EmailAdressFrom = emailAdressFrom ?? throw new ArgumentNullException(nameof(emailAdressFrom));
-
-            EmailPassword  = String.IsNullOrWhiteSpace(emailPassword) ?
-                    throw new Exception("Нельзя втсавлять пробелы или пустое значение!") : emailPassword;
-
-            EmailAdressTo = emailAdressTo ?? throw new ArgumentNullException(nameof(emailAdressTo));
-
-            Subject = subject ?? throw new ArgumentNullException(nameof(subject));
-
-            Body = body ?? throw new ArgumentNullException(nameof(body));
-        }
-        public string Subject { get; set; }
-        public string Body { get; set; }
-        public string SmtpClientAdress { get; set; }
-        public StringPair EmailAdressFrom { get; set; }
-        public string EmailPassword { get; set; }
-        public StringPair EmailAdressTo { get; set; }
-
-        public class StringPair
-        {
-            public StringPair(string emailAdress, string name)
-                {
-                 EmailAdress = String.IsNullOrWhiteSpace(emailAdress) ? 
-                    throw new Exception("Нельзя втсавлять пробелы или пустое значение!") : emailAdress;
-
-                Name = String.IsNullOrWhiteSpace(emailAdress) ?
-                    throw new Exception("Нельзя втсавлять пробелы или пустое значение!") : emailAdress;
+            get { return _smtpClientAdress; }
+            set
+            {
+                _smtpClientAdress = String.IsNullOrWhiteSpace(value) ?
+                    throw new ArgumentNullException(nameof(_smtpClientAdress)) :
+                    value;
             }
-            public string EmailAdress { get; set; }
-            public string Name { get; set; }
-         
         }
-        
+
+        public StringPair EmailAdressFrom
+        {
+            get { return _emailAdressFrom; }
+            set
+            {
+                _emailAdressFrom = value ??
+                throw new ArgumentNullException(nameof(_emailAdressFrom));
+            }
+        }
+
+        public string EmailPassword
+        {
+            get { return _emailPassword; }
+            set
+            {
+                _emailPassword = String.IsNullOrWhiteSpace(value) ?
+                    throw new ArgumentNullException(nameof(_emailPassword)) :
+                    value;
+            }
+        }
+
+        public StringPair EmailAdressTo
+        {
+            get { return _emailAdressTo; }
+            set
+            {
+                _emailAdressTo = value ??
+                throw new ArgumentNullException(nameof(_emailAdressTo));
+            }
+        }
+
+        public string Subject
+        {
+            get { return _subject; }
+            set
+            {
+                _subject = String.IsNullOrWhiteSpace(value) ?
+                    throw new ArgumentNullException(nameof(_subject)) :
+                    value;
+            }
+        }
+
+        public string Body
+        {
+            get { return _body; }
+            set
+            {
+                _body = String.IsNullOrWhiteSpace(value) ?
+                    throw new ArgumentNullException(nameof(value)) :
+                    value;
+            }
+        }
+
+        public int Port
+        {
+            get { return _port; }
+            set { _port = value; }
+        }
+
+        protected InfoEmail(StringPair emailAdressTo, string subject, string body)
+        {
+            EmailAdressTo = emailAdressTo;
+
+            Subject = subject;
+
+            Body = body;
+        }
     }
 }
